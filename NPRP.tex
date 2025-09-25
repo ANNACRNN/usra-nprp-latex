@@ -1,18 +1,3 @@
-% After selecting your Research Opportunity to which you want to apply, contact the NASA Advisor or Point of Contact associated with that opportunity to discuss your research plan.
-% Develop your research plan in collaboration with the prospective NASA Advisor
-% You must submit a research proposal that responds to the goals and objectives described in the research opportunity you selected.
-% Your proposal will be reviewed by the Center to assess its suitability for the research opportunity and, if suitable, will be reviewed by at least three external peer reviewers.
-%
-% Format of the Proposal
-% The maximum length for the proposal is 15 pages, including figures and citations; double-spaced; 12-point font.
-% Proposals for the NASA Postdoctoral Research Program should begin with a brief abstract, followed by the body of the proposal, which should contain these components:
-%%% statement of problem,
-%%% background and relevance to previous work,
-%%% general methodology, procedures to be followed, and timeline for completion of each step;
-%%% explanation of new or unusual techniques,
-%%% expected results and their significance and application, and
-%%% literature citations, where appropriate.
-
 \documentclass[final,letterpaper,oneside,12pt]{article}
 \usepackage{nasapostdoc}
 \usepackage{graphicx}
@@ -21,57 +6,64 @@
 \usepackage{cleveref}
 \usepackage{natbib}
 
-\title{Replace this with Your Title}  % add title here
-\author{Your Name Goes Here}  % include Author's name here
+\title{Toward Robust Autonomous Exposure Control: Developing a Data Pipeline for UV Astrophysics Missions}
+\author{Anna Childs}
 
-%%% Uncomment the lines below and replace the text with your information
-%\project{Replace this with the selected opportunity title from the USRA website} 
-%\institution{Replace this with the prospective NASA center}  
-%\advisor{Replace this with the advisor of the selected opportunity} 
+\project{0322-NPP-NOV25-JPL-Astrophys: Autonomous Space Observatories for Astrophysics} 
+\institution{Jet Propulsion Laboratory, California Institute of Technology}  
+\advisor{[Prospective NASA Advisor Name]} 
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-	Replace this text with the text of your abstract.
+Autonomous exposure control has recently emerged as a transformative technology in astrophysics CubeSats, pioneered by the Star-Planet Activity Research CubeSat (SPARCS). However, the technology has never been implemented in a general astrophysics context, and its performance under highly variable flare conditions remains uncertain. This proposal outlines a postdoctoral research program to design the initial data pipeline for such systems, with emphasis on testing, validating, and refining the onboard dynamic exposure algorithm and its interface with ground-based reduction. By integrating flare simulations, detector models, and pipeline development, I will establish the foundation for robust UV time-domain astronomy in current and future small missions, reducing risk and enabling confident interpretation of flare-driven astrophysical variability.
 \end{abstract}
 
 \section{Statement of the Problem}
-
-This is an example using the \LaTeX{} template for the NASA Postdoctoral Program.  Please replace this text with the text of your research proposal. Remember that the text of the proposal needs to be double-spaced.
-
-The \href{http://merkel.texture.rocks/Latex/natbib.php}{natbib} package provides multiple citation options as described in \citet{natbib:2010}.
-
-\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
-   \centering
-   \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=1in]{example-image-a}
-   \caption{example caption}
-   \label{fig:example}
-\end{figure}
+Ultraviolet monitoring of low-mass stars is limited by flare-driven variability that can saturate detectors by orders of magnitude above quiescent flux \citep{Loyd2018,MacGregor2021}. The SPARCS mission is the first to incorporate \emph{autonomous dynamic exposure control} to mitigate saturation \citep{Ramiaramanantsoa2021}. Yet uncertainties remain: (1) how well algorithms generalize across flare morphologies, (2) how saturated frames bias flare statistics, and (3) how to integrate on-orbit autonomous control with a ground pipeline for science delivery. A rigorous data pipeline is urgently needed.
 
 \section{Science Background}
+Past small missions (MOST, BRITE, ASTERIA) probed stellar variability in the optical. SPARCS extends this into the UV, advancing technology with delta-doped CCDs and detector-integrated filters \citep{Shkolnik2025}. Its novelty is real-time exposure adaptation, based on point-spread maxima rather than pixel-count thresholds. This represents a paradigm shift from solar observatories (Yohkoh, TRACE, Hinode) where algorithms targeted extended sources. Building a pipeline around this new mode of observation is central to extracting reliable flare frequency distributions and rotational modulation signals, and will directly support NASA’s exoplanet habitability science.
 
 \section{Objectives and Expected Significance}
+\begin{itemize}
+    \item Deliver an initial data pipeline capable of handling autonomous exposure datasets, including frame-by-frame metadata, saturation events, and gain changes.
+    \item Quantify uncertainties in flare recovery given time-delay feedback in the control loop.
+    \item Generalize lessons from SPARCS to future JPL-led UV missions, informing detector and software design.
+    \item Train a methodology for handling sparse/heterogeneous datasets, anticipating integration with JWST and Habitable Worlds Observatory UV precursors.
+\end{itemize}
 
 \section{General Methodology}
+I will:
+\begin{enumerate}
+    \item Use synthetic flare light curves and detector simulations \citep{Ramiaramanantsoa2021} to test autonomous control scenarios across flare amplitudes and cadences.
+    \item Develop a Python-based ground pipeline (building on ALICE \citep{Ramiaramanantsoa2025}) to ingest raw frames, apply dark/flat corrections, detect saturation/blooming, and recover photometry.
+    \item Validate against archival GALEX and HST flare statistics, testing consistency of recovered flare frequency distributions.
+    \item Incorporate machine-learning based anomaly detection for saturated frames, providing error models rather than simple flagging.
+\end{enumerate}
 
 \section{Explanation of New Techniques}
+The novelty is two-fold:
+\begin{itemize}
+    \item \textbf{Onboard autonomy:} exposure adjustments occur frame-to-frame, a first in astrophysics CubeSats.
+    \item \textbf{Pipeline integration:} unlike fixed-exposure data, these datasets are inherently heterogeneous. I will design reduction methods that propagate exposure-time uncertainty into light-curve analyses, ensuring flare energies are unbiased.
+\end{itemize}
 
 \section{Perceived Impact to State of Knowledge}
+This work directly addresses gaps in UV flare frequency statistics and detector performance, both critical for exoplanet habitability studies \citep{Segura2010,Luger2015}. The pipeline will enable SPARCS and follow-on missions to deliver trustworthy science products, extending NASA’s time-domain UV capabilities and de-risking autonomous technologies for larger observatories.
 
 \section{Work Plan}
+\begin{itemize}
+    \item \textbf{Year 1:} Compile flare simulations and detector models; prototype ingestion and calibration modules.
+    \item \textbf{Year 2:} Implement autonomous-exposure-aware photometry and flare recovery testing; quantify uncertainties under saturation.
+    \item \textbf{Year 3:} Generalize pipeline for future missions; release open-source version with documentation; publish validation studies.
+\end{itemize}
 
-%%% Include literature citations where necessary and appropriate.
-%%% You should use an accepted citation format relevant for your field
-%%% Citations can be single-spaced, but should use a 12 point font.
 \newpage
 \singlespacing
 \setlength{\bibsep}{0ex}
 \bibliographystyle{abbrvnat}
 \bibliography{nasa-bib-nprp}
 
-\end{document}  
-%%% Local Variables: ***
-%%% mode: latex ***
-%%% TeX-master: "NPRP.tex" ***
-%%% End: ***
+\end{document}
