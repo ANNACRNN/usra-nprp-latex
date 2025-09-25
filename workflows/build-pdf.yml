@@ -1,0 +1,21 @@
+name: Build NPRP PDF
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  latex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: NPRP.tex
+          latexmk_use_xelatex: true   # change to false if you prefer pdflatex
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NPRP-pdf
+          path: NPRP.pdf
