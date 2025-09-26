@@ -6,7 +6,7 @@
 \usepackage{cleveref}
 \usepackage{natbib}
 
-\title{Toward Robust Autonomous Exposure Control: Developing a Data Pipeline for UV Astrophysics Missions}
+\title{Characterizing Stellar Flare Frequency Distributions with SPARCS: Toward Robust Habitability Assessments}
 \author{Anna Childs}
 
 \project{0322-NPP-NOV25-JPL-Astrophys: Autonomous Space Observatories for Astrophysics} 
@@ -17,47 +17,46 @@
 \maketitle
 
 \begin{abstract}
-Autonomous exposure control has recently emerged as a transformative technology in astrophysics CubeSats, pioneered by the Star-Planet Activity Research CubeSat (SPARCS). However, the technology has never been implemented in a general astrophysics context, and its performance under highly variable flare conditions remains uncertain. This proposal outlines a postdoctoral research program to design the initial data pipeline for such systems, with emphasis on testing, validating, and refining the onboard dynamic exposure algorithm and its interface with ground-based reduction. By integrating flare simulations, detector models, and pipeline development, I will establish the foundation for robust UV time-domain astronomy in current and future small missions, reducing risk and enabling confident interpretation of flare-driven astrophysical variability.
+Ultraviolet flares from low-mass stars strongly influence the atmospheres and habitability of orbiting planets, but flare frequency distributions (FFDs) remain poorly constrained in the UV. The Star-Planet Activity Research CubeSat (SPARCS) is the first mission designed to deliver long-baseline, high-cadence UV monitoring of M and K stars. However, its novel use of autonomous exposure control introduces new complexities for data analysis. I propose to develop a robust data pipeline to characterize stellar FFDs from SPARCS, quantifying uncertainties introduced by dynamic exposure adjustments and saturation, and integrating the resulting distributions into models of planetary atmospheric loss and habitability. This work will both enable the core SPARCS science goals and provide critical flare statistics for assessing exoplanet habitability across low-mass stars.
 \end{abstract}
 
 \section{Statement of the Problem}
-Ultraviolet monitoring of low-mass stars is limited by flare-driven variability that can saturate detectors by orders of magnitude above quiescent flux \citep{Loyd2018,MacGregor2021}. The SPARCS mission is the first to incorporate \emph{autonomous dynamic exposure control} to mitigate saturation \citep{Ramiaramanantsoa2021}. Yet uncertainties remain: (1) how well algorithms generalize across flare morphologies, (2) how saturated frames bias flare statistics, and (3) how to integrate on-orbit autonomous control with a ground pipeline for science delivery. A rigorous data pipeline is urgently needed.
+Low-mass stars dominate the exoplanet population accessible to current and near-future missions. Their frequent UV flares can erode atmospheres, drive abiotic oxygen buildup, and bias biosignature interpretations \citep{Segura2010,Luger2015}. While optical flare statistics are well studied, UV FFDs remain sparse due to limited time-domain coverage \citep{Loyd2018,France2020}. SPARCS is the first CubeSat dedicated to long-duration UV monitoring of K and M stars, uniquely positioned to capture the rare, high-energy flares most relevant to habitability \citep{Shkolnik2025}. Yet flare recovery is complicated by SPARCS’ onboard \emph{autonomous dynamic exposure control}, which adjusts integration times in near-real time to mitigate detector saturation during flares \citep{Ramiaramanantsoa2021}. A dedicated pipeline is required to extract flare statistics robustly from such heterogeneous data.
 
 \section{Science Background}
-Past small missions (MOST, BRITE, ASTERIA) probed stellar variability in the optical. SPARCS extends this into the UV, advancing technology with delta-doped CCDs and detector-integrated filters \citep{Shkolnik2025}. Its novelty is real-time exposure adaptation, based on point-spread maxima rather than pixel-count thresholds. This represents a paradigm shift from solar observatories (Yohkoh, TRACE, Hinode) where algorithms targeted extended sources. Building a pipeline around this new mode of observation is central to extracting reliable flare frequency distributions and rotational modulation signals, and will directly support NASA’s exoplanet habitability science.
+Flare frequency distributions (FFDs) describe the occurrence rate of flares as a function of energy. Extrapolating FFDs to high energies provides essential inputs for atmospheric escape and photochemistry models. Current FFDs for low-mass stars in the UV are limited to archival HST snapshots and GALEX serendipitous detections, typically sampling minutes per star. SPARCS extends this by three orders of magnitude in dwell time, enabling statistically robust FFDs spanning quiescent through extreme flare states. Accurate recovery of flare energies, however, requires accounting for frame-to-frame exposure changes and occasional saturation in the dynamic control system.
 
 \section{Objectives and Expected Significance}
 \begin{itemize}
-    \item Deliver an initial data pipeline capable of handling autonomous exposure datasets, including frame-by-frame metadata, saturation events, and gain changes.
-    \item Quantify uncertainties in flare recovery given time-delay feedback in the control loop.
-    \item Generalize lessons from SPARCS to future JPL-led UV missions, informing detector and software design.
-    \item Train a methodology for handling sparse/heterogeneous datasets, anticipating integration with JWST and Habitable Worlds Observatory UV precursors.
+    \item Develop a data pipeline optimized for flare recovery from SPARCS’ dynamically exposed datasets.
+    \item Derive flare frequency distributions for a representative set of K and M dwarfs across ages and activity levels.
+    \item Quantify the impact of dynamic exposure and saturation on flare energy uncertainties.
+    \item Implement resulting FFDs into atmospheric escape and photochemistry models, constraining habitability outcomes for exoplanets around low-mass stars.
 \end{itemize}
 
 \section{General Methodology}
-I will:
 \begin{enumerate}
-    \item Use synthetic flare light curves and detector simulations \citep{Ramiaramanantsoa2021} to test autonomous control scenarios across flare amplitudes and cadences.
-    \item Develop a Python-based ground pipeline (building on ALICE \citep{Ramiaramanantsoa2025}) to ingest raw frames, apply dark/flat corrections, detect saturation/blooming, and recover photometry.
-    \item Validate against archival GALEX and HST flare statistics, testing consistency of recovered flare frequency distributions.
-    \item Incorporate machine-learning based anomaly detection for saturated frames, providing error models rather than simple flagging.
+    \item \textbf{Simulated testing:} Use synthetic flare light curves and detector models to test flare recovery under dynamic exposure control, validating against known flare templates.
+    \item \textbf{Pipeline development:} Extend the ALICE framework \citep{Ramiaramanantsoa2025} to ingest heterogeneous SPARCS datasets, correct for exposure-time changes, identify blooming events, and recover flare energies.
+    \item \textbf{FFD construction:} Apply Bayesian inference to derive FFDs for SPARCS targets, propagating exposure uncertainties into flare energy distributions.
+    \item \textbf{Habitability integration:} Couple FFD results to atmospheric escape and photochemical models \citep{Segura2010,Luger2015} to quantify cumulative UV impacts on exoplanetary environments.
 \end{enumerate}
 
 \section{Explanation of New Techniques}
-The novelty is two-fold:
+Two innovations drive this project:
 \begin{itemize}
-    \item \textbf{Onboard autonomy:} exposure adjustments occur frame-to-frame, a first in astrophysics CubeSats.
-    \item \textbf{Pipeline integration:} unlike fixed-exposure data, these datasets are inherently heterogeneous. I will design reduction methods that propagate exposure-time uncertainty into light-curve analyses, ensuring flare energies are unbiased.
+    \item \textbf{Autonomous exposure-aware flare recovery:} Incorporating frame-by-frame exposure adjustments into light-curve analysis, ensuring flare energies are unbiased by onboard control.
+    \item \textbf{FFD-to-habitability pipeline:} Linking empirical FFDs directly to atmospheric models, enabling SPARCS data to inform habitability assessments in a statistically rigorous way.
 \end{itemize}
 
 \section{Perceived Impact to State of Knowledge}
-This work directly addresses gaps in UV flare frequency statistics and detector performance, both critical for exoplanet habitability studies \citep{Segura2010,Luger2015}. The pipeline will enable SPARCS and follow-on missions to deliver trustworthy science products, extending NASA’s time-domain UV capabilities and de-risking autonomous technologies for larger observatories.
+This work will yield the first statistically robust UV FFDs for low-mass stars, advancing our understanding of stellar activity across evolutionary stages. By integrating these FFDs into habitability models, the project will directly inform interpretations of biosignatures and atmospheric escape for planets orbiting K and M dwarfs. Beyond SPARCS, the methodology will generalize to future UV missions, ensuring that autonomous exposure datasets can be translated into reliable astrophysical and astrobiological insights.
 
 \section{Work Plan}
 \begin{itemize}
-    \item \textbf{Year 1:} Compile flare simulations and detector models; prototype ingestion and calibration modules.
-    \item \textbf{Year 2:} Implement autonomous-exposure-aware photometry and flare recovery testing; quantify uncertainties under saturation.
-    \item \textbf{Year 3:} Generalize pipeline for future missions; release open-source version with documentation; publish validation studies.
+    \item \textbf{Year 1:} Develop flare recovery modules; test with simulated flare light curves and synthetic SPARCS data.
+    \item \textbf{Year 2:} Apply pipeline to initial SPARCS observations; derive preliminary FFDs for benchmark targets (e.g., AU Mic, AD Leo).
+    \item \textbf{Year 3:} Integrate FFDs into atmospheric escape/photochemistry models; release open-source pipeline and publish results.
 \end{itemize}
 
 \newpage
